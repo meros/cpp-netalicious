@@ -1,0 +1,4 @@
+maker_module_depend(boost)
+maker_module_set_sources(test2.cpp)
+
+maker_module_finalize()
