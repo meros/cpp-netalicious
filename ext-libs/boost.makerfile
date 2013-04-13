@@ -1,0 +1,7 @@
+set( Boost_USE_STATIC_LIBS ON ) 
+FIND_PACKAGE(Boost 1.53 REQUIRED COMPONENTS thread system)
+
+message(${Boost_LIBRARIES})
+
+maker_module_add_raw_include_dirs(${Boost_INCLUDE_DIR})
+maker_module_add_raw_module_deps(${Boost_LIBRARIES})
