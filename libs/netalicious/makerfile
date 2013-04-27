@@ -1,4 +1,7 @@
-maker_module_depend(boost)
-maker_module_set_sources(test2.cpp)
+macro(netalicious_add_class class)
+    maker_module_set_sources(${class}.cpp include/${class}.hpp)
+endmacro()
 
-maker_module_finalize()
+maker_module_depend(boost)
+
+netalicious_add_class(loop)
