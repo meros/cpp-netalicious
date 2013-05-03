@@ -5,3 +5,4 @@ endmacro()
 maker_module_depend(boost)
 
 netalicious_add_class(loop)
+netalicious_add_class(eggclock)
