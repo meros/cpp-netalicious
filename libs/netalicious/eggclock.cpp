@@ -23,12 +23,19 @@ netalicious::EggClock::EggClock(shared_ptr<Loop> &aLoop) :
 		myPimpl(new EggClockPimpl(*aLoop->getAsioService())) {
 }
 
-void print(const boost::system::error_code& /*e*/)
-{
-  std::cout << "Hello, world!\n";
+void timeoutTrampoline(const boost::system::error_code& err,
+		boost::function<void(bool)> aCallback) {
+	bool normalTimeOut = true;
+
+	if (err == boost::asio::error::operation_aborted) {
+		normalTimeOut = false;
+	}
+
+	aCallback(normalTimeOut);
 }
 
-void netalicious::EggClock::setTimeout(int timeout) {
-	myPimpl->myTimer->expires_from_now(boost::posix_time::seconds(timeout));
-	myPimpl->myTimer->async_wait(print);
+void netalicious::EggClock::setTimeout(int aTimeout,
+		boost::function<void(bool)> aCallback) {
+	myPimpl->myTimer->expires_from_now(boost::posix_time::seconds(aTimeout));
+	myPimpl->myTimer->async_wait(boost::bind(timeoutTrampoline, _1, aCallback));
 }
