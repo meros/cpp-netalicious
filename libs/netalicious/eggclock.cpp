@@ -39,3 +39,7 @@ void netalicious::EggClock::setTimeout(int aTimeout,
 	myPimpl->myTimer->expires_from_now(boost::posix_time::seconds(aTimeout));
 	myPimpl->myTimer->async_wait(boost::bind(timeoutTrampoline, _1, aCallback));
 }
+
+void netalicious::EggClock::cancel() {
+	myPimpl->myTimer->cancel();
+}
