@@ -1,8 +1,13 @@
-macro(netalicious_add_class class)
-    maker_module_set_sources(${class}.cpp include/${class}.hpp)
-endmacro()
-
 maker_module_depend(boost)
 
-netalicious_add_class(loop)
-netalicious_add_class(eggclock)
+maker_module_set_sources(include/netalicious/loop.hpp)
+maker_module_set_sources(include/netalicious/eggclock.hpp)
+
+maker_module_set_sources(
+	src/netalicious/asio-impl/loop-asio.cpp 
+	src/netalicious/asio-impl/loop-asio.hpp)
+
+maker_module_set_sources(
+	src/netalicious/asio-impl/eggclock-asio.cpp 
+	src/netalicious/asio-impl/eggclock-asio.hpp)
+	

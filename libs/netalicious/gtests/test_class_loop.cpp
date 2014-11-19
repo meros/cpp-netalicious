@@ -1,15 +1,9 @@
 // SubtractTest.cpp
 #include "gtest/gtest.h"
-#include "loop.hpp"
+#include <src/netalicious/asio-impl/loop-asio.hpp>
 
 
-TEST(LoopTest, SubtractTwoNumbers)
+TEST(LoopTest, SimpleCreate)
 {
-    boost::shared_ptr<netalicious::Loop> loop (new netalicious::Loop);
-}
-
-TEST(LoopTest, SubtractTwoNumbers2)
-{
-    std::cout << "asdf" << std::endl;
-    boost::shared_ptr<netalicious::Loop> loop (new netalicious::Loop);
+    boost::shared_ptr<netalicious::Loop> loop (new netalicious::LoopAsio);
 }

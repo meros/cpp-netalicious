@@ -1,8 +1,11 @@
-// SubtractTest.cpp
 #include "gtest/gtest.h"
-#include "loop.hpp"
-#include "eggclock.hpp"
+
+#include <src/netalicious/asio-impl/eggclock-asio.hpp>
+#include <src/netalicious/asio-impl/loop-asio.hpp>
+
 #include <boost/bind.hpp>
+#include <boost/thread.hpp>
+
 #include <iostream>
 
 using namespace netalicious;
@@ -15,8 +18,8 @@ void timeout(bool aNormalTimeout, bool *aOutNormalTimeout) {
 }
 
 TEST(EggclockTest, TestTimeout) {
-	shared_ptr<Loop> loop(new Loop());
-	shared_ptr<EggClock> eggclock(new EggClock(loop));
+	shared_ptr<Loop> loop(new LoopAsio());
+	shared_ptr<EggClock> eggclock(new EggClockAsio(loop));
 
 	bool normalTimeOut = false;
 	eggclock->setTimeout(1, bind(timeout, _1, &normalTimeOut));
@@ -26,8 +29,8 @@ TEST(EggclockTest, TestTimeout) {
 }
 
 TEST(EggclockTest, TestCancelDone) {
-	shared_ptr<Loop> loop(new Loop());
-	shared_ptr<EggClock> eggclock(new EggClock(loop));
+	shared_ptr<Loop> loop(new LoopAsio());
+	shared_ptr<EggClock> eggclock(new EggClockAsio(loop));
 
 	bool normalTimeOut = false;
 	eggclock->setTimeout(1, bind(timeout, _1, &normalTimeOut));
@@ -37,8 +40,8 @@ TEST(EggclockTest, TestCancelDone) {
 }
 
 TEST(EggclockTest, TestTimeoutBeforeTimeout) {
-	shared_ptr<Loop> loop(new Loop());
-	shared_ptr<EggClock> eggclock(new EggClock(loop));
+	shared_ptr<Loop> loop(new LoopAsio());
+	shared_ptr<EggClock> eggclock(new EggClockAsio(loop));
 
 	bool normalTimeOut = false;
 	eggclock->setTimeout(5, bind(timeout, _1, &normalTimeOut));
