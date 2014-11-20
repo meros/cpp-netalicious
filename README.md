@@ -1,14 +1,19 @@
 netalicious
 ===========
 
-The idea is to wrap boost::asio in a dead simple/clean layer of code while still maintaining a good amount of flexibility and power.
+What is this?
+-------------
+netalicious is a simple (as in easy to use) network lib that is still based on a modern asynchronous model that should be able to scale well. That said, the design does not aim for best in class performance, target audience is hobby projects that want an easy to use cross platform event driven network library.
 
-Obviously it's not there yet...
+Current status
+--------------
+This project is still in it's infancy, much is lacking. Currently it's mostly a skeleton for what might come.
 
-To build this, you need maker, another project of mine. Just git clone maker in a folder next to netalicious and it should work:
+Build
+-----
+To build this, you need maker, another project of mine. Clone maker in a folder next to netalicious and it should work:
 
-/workspace/netalicious
+> /workspace/netalicious
+> /workspace/maker
 
-/workspace/maker
-
-Then create a build folder and run cmake from there on the /workspace/netalicious folder just like any other cmake project
+Then use cmake as usual using netalicious as root source folder. I recommend building out of source.
