@@ -13,7 +13,7 @@ Build
 -----
 To build this, you need maker, another project of mine. Clone maker in a folder next to netalicious and it should work:
 
-> /workspace/netalicious
-> /workspace/maker
+* /workspace/netalicious
+* /workspace/maker
 
 Then use cmake as usual using netalicious as root source folder. I recommend building out of source.
