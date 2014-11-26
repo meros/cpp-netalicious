@@ -10,6 +10,6 @@ namespace netalicious {
     public:        
         virtual ~Loop() {};
 
-    	virtual void WaitDone() = 0;
+    	virtual void waitDone() = 0;
     };
 }

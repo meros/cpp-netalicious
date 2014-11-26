@@ -1,13 +1,21 @@
 maker_module_depend(boost)
 
+maker_module_set_sources(
+	include/netalicious/netalicious.hpp
+	src/netalicious/netalicious.cpp)
+
 maker_module_set_sources(include/netalicious/loop.hpp)
 maker_module_set_sources(include/netalicious/eggclock.hpp)
 
 maker_module_set_sources(
-	src/netalicious/asio-impl/loop-asio.cpp 
-	src/netalicious/asio-impl/loop-asio.hpp)
+	src/netalicious/asio/netaliciousasio.cpp 
+	src/netalicious/asio/netaliciousasio.hpp)
 
 maker_module_set_sources(
-	src/netalicious/asio-impl/eggclock-asio.cpp 
-	src/netalicious/asio-impl/eggclock-asio.hpp)
+	src/netalicious/asio/loopasio.cpp 
+	src/netalicious/asio/loopasio.hpp)
+
+maker_module_set_sources(
+	src/netalicious/asio/eggclockasio.cpp 
+	src/netalicious/asio/eggclockasio.hpp)
 	

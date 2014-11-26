@@ -1,10 +1,8 @@
 #pragma once
 
-#include <netalicious/loop.hpp>
-
 #include <boost/smart_ptr.hpp>
 #include <boost/function.hpp>
-
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 namespace netalicious {
 
@@ -15,7 +13,7 @@ public:
 	// Set timeout, aCallback will be called when time has expired
 	// If there is already an outstanding timeout, it will be cancelled
 	virtual void setTimeout(
-			int aTimeout,
+			boost::posix_time::time_duration aTimeout,
 			boost::function<void (bool)> aCallback) = 0;
 
 	// Cancel any outstanding timeouts,

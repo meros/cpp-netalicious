@@ -1,6 +1,6 @@
 // SubtractTest.cpp
 #include "gtest/gtest.h"
-#include <src/netalicious/asio-impl/loop-asio.hpp>
+#include <src/netalicious/asio/loopasio.hpp>
 
 
 TEST(LoopTest, SimpleCreate)

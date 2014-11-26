@@ -1,4 +1,4 @@
-#include "loop-asio.hpp"
+#include "loopasio.hpp"
 
 #include <boost/bind.hpp>
 
@@ -19,7 +19,7 @@ LoopAsio::LoopAsio()
 }
 
 boost::shared_ptr<boost::asio::io_service>
-LoopAsio::GetAsioIo() {
+LoopAsio::getAsioIo() {
 	return myAsioIo;
 }
 
@@ -28,7 +28,7 @@ LoopAsio::~LoopAsio() {
 	myRunThread.join();
 }
 
-void LoopAsio::WaitDone() {
+void LoopAsio::waitDone() {
 	myWork.reset();
 	myRunThread.join();
 }

@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 
-#include <src/netalicious/asio-impl/eggclock-asio.hpp>
-#include <src/netalicious/asio-impl/loop-asio.hpp>
+#include <src/netalicious/asio/eggclockasio.hpp>
+#include <src/netalicious/asio/loopasio.hpp>
 
 #include <boost/bind.hpp>
 #include <boost/thread.hpp>
@@ -18,36 +18,42 @@ void timeout(bool aNormalTimeout, bool *aOutNormalTimeout) {
 }
 
 TEST(EggclockTest, TestTimeout) {
-	shared_ptr<Loop> loop(new LoopAsio());
-	shared_ptr<EggClock> eggclock(new EggClockAsio(loop));
+	shared_ptr<LoopAsio> loop(new LoopAsio());
+	shared_ptr<EggClockAsio> eggclock(new EggClockAsio(loop));
 
 	bool normalTimeOut = false;
-	eggclock->setTimeout(1, bind(timeout, _1, &normalTimeOut));
+	eggclock->setTimeout(
+			boost::posix_time::seconds(1),
+			bind(timeout, _1, &normalTimeOut));
 
-	loop->WaitDone();
+	loop->waitDone();
 	EXPECT_TRUE(normalTimeOut);
 }
 
 TEST(EggclockTest, TestCancelDone) {
-	shared_ptr<Loop> loop(new LoopAsio());
-	shared_ptr<EggClock> eggclock(new EggClockAsio(loop));
+	shared_ptr<LoopAsio> loop(new LoopAsio());
+	shared_ptr<EggClockAsio> eggclock(new EggClockAsio(loop));
 
 	bool normalTimeOut = false;
-	eggclock->setTimeout(1, bind(timeout, _1, &normalTimeOut));
+	eggclock->setTimeout(
+			boost::posix_time::seconds(1),
+			bind(timeout, _1, &normalTimeOut));
 	eggclock->cancel();
-	loop->WaitDone();
+	loop->waitDone();
 	EXPECT_FALSE(normalTimeOut);
 }
 
 TEST(EggclockTest, TestTimeoutBeforeTimeout) {
-	shared_ptr<Loop> loop(new LoopAsio());
-	shared_ptr<EggClock> eggclock(new EggClockAsio(loop));
+	shared_ptr<LoopAsio> loop(new LoopAsio());
+	shared_ptr<EggClockAsio> eggclock(new EggClockAsio(loop));
 
 	bool normalTimeOut = false;
-	eggclock->setTimeout(5, bind(timeout, _1, &normalTimeOut));
+	eggclock->setTimeout(
+			boost::posix_time::seconds(5),
+			bind(timeout, _1, &normalTimeOut));
 	boost::this_thread::sleep(boost::posix_time::seconds(3));
 	EXPECT_FALSE(normalTimeOut);
 	boost::this_thread::sleep(boost::posix_time::seconds(3));
 	EXPECT_TRUE(normalTimeOut);
-	loop->WaitDone();
+	loop->waitDone();
 }
