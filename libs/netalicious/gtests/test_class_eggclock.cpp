@@ -23,7 +23,7 @@ TEST(EggclockTest, TestTimeout) {
 
 	bool normalTimeOut = false;
 	eggclock->setTimeout(
-			boost::posix_time::seconds(1),
+			boost::posix_time::milliseconds(100),
 			bind(timeout, _1, &normalTimeOut));
 
 	loop->waitDone();
@@ -36,7 +36,7 @@ TEST(EggclockTest, TestCancelDone) {
 
 	bool normalTimeOut = false;
 	eggclock->setTimeout(
-			boost::posix_time::seconds(1),
+			boost::posix_time::milliseconds(100),
 			bind(timeout, _1, &normalTimeOut));
 	eggclock->cancel();
 	loop->waitDone();
@@ -49,11 +49,11 @@ TEST(EggclockTest, TestTimeoutBeforeTimeout) {
 
 	bool normalTimeOut = false;
 	eggclock->setTimeout(
-			boost::posix_time::seconds(5),
+			boost::posix_time::milliseconds(500),
 			bind(timeout, _1, &normalTimeOut));
-	boost::this_thread::sleep(boost::posix_time::seconds(3));
+	boost::this_thread::sleep(boost::posix_time::milliseconds(10));
 	EXPECT_FALSE(normalTimeOut);
-	boost::this_thread::sleep(boost::posix_time::seconds(3));
+	boost::this_thread::sleep(boost::posix_time::milliseconds(500));
 	EXPECT_TRUE(normalTimeOut);
 	loop->waitDone();
 }
