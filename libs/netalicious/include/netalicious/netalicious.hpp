@@ -2,6 +2,7 @@
 
 #include <netalicious/loop.hpp>
 #include <netalicious/eggclock.hpp>
+#include <netalicious/tcpacceptor.hpp>
 
 #include <boost/shared_ptr.hpp>
 
@@ -17,6 +18,10 @@ public:
 
 	virtual boost::shared_ptr<EggClock> createEggclock(
 			boost::shared_ptr<Loop> aLoop) = 0;
+
+	virtual boost::shared_ptr<TcpAcceptor> createTcpAcceptor(
+			boost::shared_ptr<Loop> aLoop) = 0;
+
 };
 
 }

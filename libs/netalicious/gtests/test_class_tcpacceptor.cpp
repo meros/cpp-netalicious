@@ -3,7 +3,11 @@
 
 #include <boost/shared_ptr.hpp>
 
+using namespace boost;
+using namespace netalicious;
+
 TEST(TcpAcceptor, SimpleCreate)
 {
-    boost::shared_ptr<netalicious::TcpAcceptorAsio> tcpAcceptor (new netalicious::TcpAcceptorAsio());
+	shared_ptr<LoopAsio> loop(new LoopAsio());
+    shared_ptr<TcpAcceptorAsio> tcpAcceptor (new netalicious::TcpAcceptorAsio(loop));
 }

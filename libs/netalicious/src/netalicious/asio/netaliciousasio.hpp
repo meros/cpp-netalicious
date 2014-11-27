@@ -13,6 +13,8 @@ public:
 	boost::shared_ptr<EggClock> createEggclock(
 			boost::shared_ptr<Loop> aLoop);
 
+	boost::shared_ptr<TcpAcceptor> createTcpAcceptor(
+			boost::shared_ptr<Loop> aLoop);
 };
 
 }

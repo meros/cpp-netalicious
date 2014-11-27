@@ -1,0 +1,4 @@
+maker_module_depend(netalicious)
+maker_module_depend(boost)
+maker_module_set_sources(
+	main_tcpacceptor.cpp)
