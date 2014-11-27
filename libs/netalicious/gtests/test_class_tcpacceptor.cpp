@@ -9,5 +9,5 @@ using namespace netalicious;
 TEST(TcpAcceptor, SimpleCreate)
 {
 	shared_ptr<LoopAsio> loop(new LoopAsio());
-    shared_ptr<TcpAcceptorAsio> tcpAcceptor (new netalicious::TcpAcceptorAsio(loop));
+    shared_ptr<TcpAcceptorAsio> tcpAcceptor (new TcpAcceptorAsio(loop));
 }
