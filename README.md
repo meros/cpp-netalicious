@@ -7,7 +7,13 @@ netalicious is a simple (as in easy to use) network lib that is still based on a
 
 Current status
 --------------
-This project is still in it's infancy, much is lacking. Currently it's mostly a skeleton for what might come.
+This project is still in it's infancy, much is lacking.
+
+As of now this is available:
+
+Loop - working
+EggClock - working
+TcpAcceptor - skeleton
 
 Build
 -----
