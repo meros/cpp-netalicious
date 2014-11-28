@@ -11,9 +11,9 @@ This project is still in it's infancy, much is lacking.
 
 As of now this is available:
 
-Loop - working
-EggClock - working
-TcpAcceptor - skeleton
+* Loop - working
+* EggClock - working
+* TcpAcceptor - skeleton
 
 Build
 -----
