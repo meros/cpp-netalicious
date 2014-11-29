@@ -4,7 +4,8 @@ namespace netalicious {
 
 TcpAcceptorAsio::TcpAcceptorAsio(
 		const boost::shared_ptr<LoopAsio>& aLoop)
-	: myAcceptor(*aLoop->getAsioIo()){
+	: myAcceptor(*aLoop->getAsioIo())
+	, ourIoService(aLoop->getAsioIo().get()) {
 
 }
 
@@ -26,9 +27,21 @@ TcpAcceptorAsio::bind(uint16_t port) {
 	return true;
 }
 
+void accept_trampoline(
+		boost::function<void (bool ok)> aCallback,
+		boost::asio::ip::tcp::socket *socket) {
+	aCallback(true);
+	delete socket; // TODO: temporary
+}
+
 void
 TcpAcceptorAsio::accept(boost::function<void (bool ok)> aCallback) {
-	// TODO:
+    boost::asio::ip::tcp::socket *socket =
+      new boost::asio::ip::tcp::socket(*ourIoService);
+
+    myAcceptor.async_accept(
+    		*socket,
+        boost::bind(accept_trampoline, aCallback, socket));
 }
 
 

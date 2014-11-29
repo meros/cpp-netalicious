@@ -18,6 +18,7 @@ public:
 
 private:
 	boost::asio::ip::tcp::acceptor myAcceptor;
+	boost::asio::io_service* ourIoService;
 };
 
 }
