@@ -27,12 +27,6 @@ TcpAcceptorAsio::bind(uint16_t port) {
 	return true;
 }
 
-void accept_trampoline(
-		boost::function<void (bool ok)> aCallback,
-		boost::asio::ip::tcp::socket *socket) {
-	aCallback(true);
-	delete socket; // TODO: temporary
-}
 
 void
 TcpAcceptorAsio::accept(boost::function<void (bool ok)> aCallback) {
@@ -41,8 +35,20 @@ TcpAcceptorAsio::accept(boost::function<void (bool ok)> aCallback) {
 
     myAcceptor.async_accept(
     		*socket,
-        boost::bind(accept_trampoline, aCallback, socket));
+        boost::bind(
+        		&TcpAcceptorAsio::accept_done,
+				shared_from_this(),
+				aCallback,
+				socket));
 }
+
+void
+TcpAcceptorAsio::accept_done(
+		boost::function<void (bool ok)> aCallback,
+		boost::asio::ip::tcp::socket *socket) {
+	aCallback(true);
+}
+
 
 
 }
