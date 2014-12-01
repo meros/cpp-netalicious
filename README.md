@@ -13,7 +13,7 @@ As of now this is available:
 
 * Loop - working
 * EggClock - working
-* TcpAcceptor - skeleton
+* TcpAcceptor - able to bind and accept socket, but socket is not returned in callback
 
 Build
 -----
