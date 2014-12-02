@@ -13,7 +13,10 @@ As of now this is available:
 
 * Loop - working
 * EggClock - working
-* TcpAcceptor - able to bind and accept socket, but socket is not returned in callback
+* TcpAcceptor - able to bind and accept socket
+* TcpChannel - skeleton, implementation own a socket but there are no methods exposed
+* TODO: TcpConnector
+* TODO: SslChannel
 
 Build
 -----
