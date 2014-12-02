@@ -9,8 +9,9 @@ using namespace std;
 using namespace boost;
 using namespace netalicious;
 
-void accepted() {
+bool accepted() {
 	cout << "Accepted tcp socket" << endl;
+	return true;
 }
 
 int main (int argc, char** argv) {

@@ -7,6 +7,7 @@ maker_module_set_sources(
 maker_module_set_sources(include/netalicious/loop.hpp)
 maker_module_set_sources(include/netalicious/eggclock.hpp)
 maker_module_set_sources(include/netalicious/tcpacceptor.hpp)
+maker_module_set_sources(include/netalicious/tcpchannel.hpp)
 
 maker_module_set_sources(
 	src/netalicious/asio/netaliciousasio.cpp 
@@ -23,4 +24,8 @@ maker_module_set_sources(
 maker_module_set_sources(
 	src/netalicious/asio/tcpacceptorasio.cpp 
 	src/netalicious/asio/tcpacceptorasio.hpp)
+	
+maker_module_set_sources(
+	src/netalicious/asio/tcpchannelasio.cpp 
+	src/netalicious/asio/tcpchannelasio.hpp)
 	

@@ -16,15 +16,16 @@ public:
 
 	bool bind(uint16_t port);
 
-	void accept(boost::function<void (bool ok)>);
+	void accept(const AcceptDoneFunc& aAcceptDoneFunc);
 private:
 	void accept_done(
-			boost::function<void (bool ok)> aCallback,
-			boost::asio::ip::tcp::socket *socket);
+			const AcceptDoneFunc& aCallback,
+			const boost::shared_ptr<boost::asio::ip::tcp::socket>& aSocket);
 
 private:
+	boost::shared_ptr<LoopAsio> ourLoop;
+
 	boost::asio::ip::tcp::acceptor myAcceptor;
-	boost::asio::io_service* ourIoService;
 };
 
 }
