@@ -32,25 +32,23 @@ TcpAcceptorAsio::bind(uint16_t port) {
 
 void
 TcpAcceptorAsio::accept(const AcceptDoneFunc& aAcceptDoneFunc){
-	boost::shared_ptr<boost::asio::ip::tcp::socket> socket(
-      new boost::asio::ip::tcp::socket(*ourLoop->getAsioIo().get()));
+	boost::shared_ptr<TcpChannelAsio> tcpChannel(new TcpChannelAsio(ourLoop));
 
     myAcceptor.async_accept(
-    		*socket,
+    		tcpChannel->getAsioSocket(),
         boost::bind(
         		&TcpAcceptorAsio::accept_done,
 				shared_from_this(),
 				aAcceptDoneFunc,
-				socket));
+				tcpChannel));
 }
 
 void
 TcpAcceptorAsio::accept_done(
 		const AcceptDoneFunc& aCallback,
-		const boost::shared_ptr<boost::asio::ip::tcp::socket>& aSocket) {
+		const boost::shared_ptr<TcpChannelAsio>& aTcpChannel) {
 	// TODO: check error
-	boost::shared_ptr<TcpChannelAsio> tcpChannel(new TcpChannelAsio(ourLoop, aSocket));
-	if (aCallback(tcpChannel)) {
+	if (aCallback(aTcpChannel)) {
 		accept(aCallback);
 	}
 }

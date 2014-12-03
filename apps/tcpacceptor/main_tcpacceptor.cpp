@@ -9,8 +9,14 @@ using namespace std;
 using namespace boost;
 using namespace netalicious;
 
-bool accepted() {
+bool read_done() {
+	cout << "Got data" << endl;
+	return true;
+}
+
+bool accept_done(boost::shared_ptr<TcpChannel> channel) {
 	cout << "Accepted tcp socket" << endl;
+	channel->read(bind(read_done));
 	return true;
 }
 
@@ -22,7 +28,7 @@ int main (int argc, char** argv) {
 	boost::shared_ptr<TcpAcceptor> tcpAcceptor = netalicious->createTcpAcceptor(loop);
 
 	tcpAcceptor->bind(8080);
-	tcpAcceptor->accept(bind(accepted));
+	tcpAcceptor->accept(bind(accept_done, _1));
 
 	loop->waitDone();
 }

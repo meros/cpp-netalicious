@@ -10,7 +10,5 @@ TEST(TcpChannel, SimpleCreate)
 {
 	shared_ptr<LoopAsio> loop(new LoopAsio());
 
-	// A closed socket...
-	shared_ptr<asio::ip::tcp::socket> socket(new asio::ip::tcp::socket(*loop->getAsioIo().get()));
-    shared_ptr<TcpChannelAsio> tcpAcceptor (new TcpChannelAsio(loop, socket));
+    shared_ptr<TcpChannelAsio> tcpAcceptor (new TcpChannelAsio(loop));
 }

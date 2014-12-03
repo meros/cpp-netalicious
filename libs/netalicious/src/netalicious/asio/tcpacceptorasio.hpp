@@ -1,6 +1,7 @@
 #pragma once
 
 #include <netalicious/asio/loopasio.hpp>
+#include <netalicious/asio/tcpchannelasio.hpp>
 #include <netalicious/tcpacceptor.hpp>
 
 #include <boost/asio.hpp>
@@ -20,7 +21,7 @@ public:
 private:
 	void accept_done(
 			const AcceptDoneFunc& aCallback,
-			const boost::shared_ptr<boost::asio::ip::tcp::socket>& aSocket);
+			const boost::shared_ptr<TcpChannelAsio>& aTcpChannel);
 
 private:
 	boost::shared_ptr<LoopAsio> ourLoop;
