@@ -8,6 +8,8 @@
 
 namespace netalicious {
 
+class CharArrayReadableBuffer;
+
 class TcpChannelAsio :
 	public TcpChannel,
 	public boost::enable_shared_from_this<TcpChannelAsio>{
@@ -22,14 +24,14 @@ public:
 	}
 
 private:
-	void read_done(const ReadDoneFunc& aReadDoneFunc);
+	void read_done(
+			size_t bytesRead,
+			const ReadDoneFunc& aReadDoneFunc,
+			const boost::shared_ptr<CharArrayReadableBuffer>& aReadableBuffer);
 
 private:
 	boost::shared_ptr<LoopAsio> ourLoop;
 	boost::asio::ip::tcp::socket mySocket;
-
-	//TODO: temporary...
-	uint8_t read_buffer[1024];
 };
 
 }

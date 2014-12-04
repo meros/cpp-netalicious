@@ -1,5 +1,7 @@
 #pragma once
 
+#include <netalicious/readablebuffer.hpp>
+
 #include <boost/cstdint.hpp>
 #include <boost/function.hpp>
 
@@ -11,7 +13,7 @@ public:
 
 	// callback function type for read
 	// return: return true to read more or false to stop reading
-	typedef boost::function<bool ()> ReadDoneFunc;
+	typedef boost::function<bool (const boost::shared_ptr<ReadableBuffer>& aReadableBuffer)> ReadDoneFunc;
 	virtual void read(const ReadDoneFunc& aReadDoneFunc) = 0;
 };
 

@@ -9,14 +9,17 @@ using namespace std;
 using namespace boost;
 using namespace netalicious;
 
-bool read_done() {
-	cout << "Got data" << endl;
-	return true;
+bool read_done(boost::shared_ptr<ReadableBuffer> buffer, int socketNum) {
+	cout << "Got data on " << socketNum << ". Num bytes: " << buffer->getSize() << endl;
+
+	return buffer->getSize() > 0;
 }
+
+static int socketCounter = 0;
 
 bool accept_done(boost::shared_ptr<TcpChannel> channel) {
 	cout << "Accepted tcp socket" << endl;
-	channel->read(bind(read_done));
+	channel->read(bind(read_done, _1, socketCounter++));
 	return true;
 }
 
