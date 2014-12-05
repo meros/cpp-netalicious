@@ -15,6 +15,9 @@ public:
 	// return: return true to read more or false to stop reading
 	typedef boost::function<bool (const boost::shared_ptr<ReadableBuffer>& aReadableBuffer)> ReadDoneFunc;
 	virtual void read(const ReadDoneFunc& aReadDoneFunc) = 0;
+
+	// TODO: callback!
+	virtual void write(const boost::shared_ptr<ReadableBuffer>& aReadableBuffer) = 0;
 };
 
 }

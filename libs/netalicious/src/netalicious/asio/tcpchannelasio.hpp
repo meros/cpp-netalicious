@@ -19,6 +19,8 @@ public:
 
 	void read(const ReadDoneFunc& aReadDoneFunc);
 
+	void write(const boost::shared_ptr<ReadableBuffer>& aReadableBuffer);
+
 	boost::asio::ip::tcp::socket &getAsioSocket() {
 		return mySocket;
 	}

@@ -16,6 +16,16 @@ public:
 		return readableBytes;
 	}
 
+	ReadableBufferPart readPart(size_t aOffset) {
+		if(aOffset >= readableBytes) {
+			return ReadableBufferPart();
+		}
+
+		return ReadableBufferPart(
+				buffer + aOffset,
+				readableBytes - aOffset);
+	}
+
 	void truncate(size_t newSize) {
 		readableBytes = newSize;
 	}
@@ -40,6 +50,27 @@ TcpChannelAsio::read(const ReadDoneFunc& aReadDoneFunc) {
 	mySocket.async_receive(
 			buffer->getAsioBuffer(),
 			boost::bind(&TcpChannelAsio::read_done, shared_from_this(), _2, aReadDoneFunc, buffer));
+}
+
+void
+TcpChannelAsio::write(
+		const boost::shared_ptr<ReadableBuffer>& aReadableBuffer) {
+
+	// TODO: this should obviously be async! This is just temporary...
+	// What needs to be done is to place buffer in list, and start a new write
+	// (if one is not already pending)
+	// Also.... callback! :)
+	size_t offset = 0;
+	do {
+		ReadableBufferPart part = aReadableBuffer->readPart(offset);
+
+		if (part.size == 0) {
+			break;
+		}
+
+		boost::asio::write(mySocket, boost::asio::buffer(part.buffer, part.size));
+		offset += part.size;
+	} while (true);
 }
 
 void
