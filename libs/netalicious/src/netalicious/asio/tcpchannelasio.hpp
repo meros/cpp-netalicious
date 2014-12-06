@@ -20,6 +20,9 @@ public:
 	TcpChannelAsio(
 			const boost::shared_ptr<LoopAsio>& aLoop);
 
+	bool isOpen();
+	void close();
+
 	void read(const ReadDoneFunc& aReadDoneFunc);
 
 	void write(

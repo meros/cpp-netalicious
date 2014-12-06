@@ -11,6 +11,9 @@ class TcpChannel {
 public:
 	virtual ~TcpChannel() {}
 
+	virtual bool isOpen() = 0;
+	virtual void close() = 0;
+
 	// callback function type for read
 	// return: return true to read more or false to stop reading
 	typedef boost::function<bool (const boost::shared_ptr<ReadableBuffer>& aReadableBuffer)> ReadDoneFunc;

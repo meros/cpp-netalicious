@@ -43,6 +43,16 @@ TcpChannelAsio::TcpChannelAsio(
 
 }
 
+bool
+TcpChannelAsio::isOpen() {
+	return mySocket.is_open();
+}
+
+void
+TcpChannelAsio::close() {
+	mySocket.close();
+}
+
 void
 TcpChannelAsio::read(const ReadDoneFunc& aReadDoneFunc) {
 	// TODO: pool these...
