@@ -9,6 +9,10 @@ using namespace std;
 using namespace boost;
 using namespace netalicious;
 
+void dummy() {
+
+}
+
 bool read_done(boost::shared_ptr<ReadableBuffer> buffer, boost::shared_ptr<TcpChannel> channel, int socketNum) {
 	cout << "Got data on " << socketNum << ". Num bytes: " << buffer->getSize() << endl;
 
@@ -29,7 +33,8 @@ bool read_done(boost::shared_ptr<ReadableBuffer> buffer, boost::shared_ptr<TcpCh
 		offset += part.size;
 	} while (true);
 
-	channel->write(buffer);
+	channel->write(buffer, bind(dummy));
+	channel->write(buffer, bind(dummy));
 
 	return buffer->getSize() > 0;
 }

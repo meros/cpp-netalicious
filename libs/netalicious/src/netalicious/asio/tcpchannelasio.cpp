@@ -38,7 +38,8 @@ private:
 TcpChannelAsio::TcpChannelAsio(
 		const boost::shared_ptr<LoopAsio>& aLoop)
 : ourLoop(aLoop)
-, mySocket(*aLoop->getAsioIo().get()) {
+, mySocket(*aLoop->getAsioIo().get())
+, myStrand(*aLoop->getAsioIo().get()){
 
 }
 
@@ -54,24 +55,75 @@ TcpChannelAsio::read(const ReadDoneFunc& aReadDoneFunc) {
 
 void
 TcpChannelAsio::write(
-		const boost::shared_ptr<ReadableBuffer>& aReadableBuffer) {
+		const boost::shared_ptr<ReadableBuffer>& aReadableBuffer,
+		const WriteDoneFunc& aWriteDoneFunc) {
 
-	// TODO: this should obviously be async! This is just temporary...
-	// What needs to be done is to place buffer in list, and start a new write
-	// (if one is not already pending)
-	// Also.... callback! :)
-	size_t offset = 0;
-	do {
-		ReadableBufferPart part = aReadableBuffer->readPart(offset);
-
-		if (part.size == 0) {
-			break;
-		}
-
-		boost::asio::write(mySocket, boost::asio::buffer(part.buffer, part.size));
-		offset += part.size;
-	} while (true);
+	ourLoop->getAsioIo().get()->post(
+			myStrand.wrap(bind(
+					&TcpChannelAsio::stranded_add_write_request,
+					shared_from_this(),
+					aReadableBuffer,
+					aWriteDoneFunc)));
 }
+
+void
+TcpChannelAsio::stranded_add_write_request(
+		const boost::shared_ptr<ReadableBuffer>& aReadableBuffer,
+		const WriteDoneFunc& aWriteDoneFunc) {
+	myPendingWriteRequests.push(
+			WriteRequest(aReadableBuffer, aWriteDoneFunc));
+
+	stranded_start_write_next_request();
+}
+
+
+void
+TcpChannelAsio::stranded_start_write_next_request() {
+	if (myCurrentWriteRequest) {
+		return;
+	}
+
+	if (!myPendingWriteRequests.empty()) {
+		WriteRequest writeRequest = myPendingWriteRequests.front();
+		myPendingWriteRequests.pop();
+
+		myCurrentWriteRequest.reset(writeRequest);
+		stranded_continue_write_current_request(0);
+	}
+}
+
+void
+TcpChannelAsio::stranded_continue_write_current_request(size_t aOffset) {
+	assert(myCurrentWriteRequest);
+
+	ReadableBufferPart part = myCurrentWriteRequest->readableBuffer->readPart(aOffset);
+
+	if (part.size == 0) {
+		myCurrentWriteRequest->writeDoneFunc();
+		myCurrentWriteRequest.reset();
+		stranded_start_write_next_request();
+	} else {
+		mySocket.async_write_some(
+				boost::asio::buffer(
+						part.buffer,
+						part.size),
+				myStrand.wrap(
+						bind(&TcpChannelAsio::stranded_write_done,
+								shared_from_this(),
+								aOffset,
+								boost::asio::placeholders::bytes_transferred())));
+	}
+}
+
+void
+TcpChannelAsio::stranded_write_done(
+		size_t aOffset,
+		size_t aBytesTransferred) {
+	assert(myCurrentWriteRequest);
+	stranded_continue_write_current_request(aOffset + aBytesTransferred);
+}
+
+
 
 void
 TcpChannelAsio::read_done(

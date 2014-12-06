@@ -16,8 +16,12 @@ public:
 	typedef boost::function<bool (const boost::shared_ptr<ReadableBuffer>& aReadableBuffer)> ReadDoneFunc;
 	virtual void read(const ReadDoneFunc& aReadDoneFunc) = 0;
 
-	// TODO: callback!
-	virtual void write(const boost::shared_ptr<ReadableBuffer>& aReadableBuffer) = 0;
+	// callback function type for write
+	// TODO: error handling?
+	typedef boost::function<void ()> WriteDoneFunc;
+	virtual void write(
+			const boost::shared_ptr<ReadableBuffer>& aReadableBuffer,
+			const WriteDoneFunc& aWriteDoneFunc) = 0;
 };
 
 }
