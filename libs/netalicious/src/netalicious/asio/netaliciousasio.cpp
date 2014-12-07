@@ -3,6 +3,7 @@
 #include <netalicious/asio/loopasio.hpp>
 #include <netalicious/asio/eggclockasio.hpp>
 #include <netalicious/asio/tcpacceptorasio.hpp>
+#include <netalicious/asio/tcpconnectorasio.hpp>
 
 namespace netalicious {
 
@@ -31,6 +32,15 @@ NetaliciousAsio::createTcpAcceptor(
 			boost::static_pointer_cast<LoopAsio>(aLoop);
 
 	return boost::shared_ptr<TcpAcceptor> (new TcpAcceptorAsio(loopAsio));
+}
+
+boost::shared_ptr<TcpConnector>
+NetaliciousAsio::createTcpConnector(
+			boost::shared_ptr<Loop> aLoop) {
+	boost::shared_ptr<LoopAsio> loopAsio =
+			boost::static_pointer_cast<LoopAsio>(aLoop);
+
+	return boost::shared_ptr<TcpConnector> (new TcpConnectorAsio(loopAsio));
 }
 
 

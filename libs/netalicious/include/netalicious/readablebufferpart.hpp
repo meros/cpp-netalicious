@@ -1,5 +1,7 @@
 #pragma once
 
+#include <boost/cstdint.hpp>
+
 namespace netalicious {
 
 // Simple class to hold
