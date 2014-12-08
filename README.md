@@ -26,10 +26,10 @@ As of now this is available:
 
 * Loop - working
 * EggClock - working
-* TcpAcceptor - able to bind and accept socket
-* TcpChannel - able to read
-* ReadableBuffer - able to get number of bytes, but no data
-* TODO: TcpConnector
+* TcpAcceptor - able to bind/accept/close
+* TcpChannel - able to read/write/close
+* ReadableBuffer - working, needs utilities for ease of use
+* TcpConnector - basic functionaly with hardcoded address and syncronous operation
 * TODO: SslChannel
 
 Build
