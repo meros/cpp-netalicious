@@ -32,6 +32,12 @@ As of now this is available:
 * TcpConnector - basic functionaly with hardcoded address and syncronous operation
 * TODO: SslChannel
 
+Design decisions and random thoughts
+------------------------------------
+Very light weight error mechanism - connect either returns ok channel or not - when did you really take care of all potential errors correctly anyway? When did you really recover from exotic error states? So, few potential return values, less code, better code. 
+
+Never return null pointers, always wrap in optional if empty result is an option. Clear semantic signal on what user can expect and needs to take care of.
+
 Build
 -----
 To build this, you need maker, another project of mine. Clone maker in a folder next to netalicious and it should work:
