@@ -23,7 +23,8 @@ public:
 	bool isOpen();
 	void close();
 
-	void read(const ReadDoneFunc& aReadDoneFunc);
+	void read(
+			const ReadDoneFunc& aReadDoneFunc);
 
 	void write(
 			const boost::shared_ptr<ReadableBuffer>& aReadableBuffer,
@@ -50,7 +51,9 @@ private:
 	// Start/continue reading current request
 	void stranded_continue_write_current_request(
 			size_t aWriteOffset);
-	void stranded_write_done(size_t aOffset, size_t aBytesTransferred);
+	void stranded_write_done(
+			size_t aOffset,
+			size_t aBytesTransferred);
 
 private:
 

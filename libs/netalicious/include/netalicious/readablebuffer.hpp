@@ -10,7 +10,8 @@ public:
 
 	virtual size_t getSize() = 0;
 
-	virtual ReadableBufferPart readPart(size_t aOffset) = 0;
+	virtual ReadableBufferPart readPart(
+			size_t aOffset) = 0;
 };
 
 }

@@ -9,11 +9,21 @@
 
 #include <iostream>
 
-using namespace boost;
-using namespace netalicious;
-using namespace std;
+namespace netalicious {
 
-void timeoutTrampoline(const boost::system::error_code& err,
+EggClockAsio::EggClockAsio(
+		const boost::shared_ptr<LoopAsio>& aLoop)
+	: myTimer(*aLoop->getAsioIo()) {
+}
+
+EggClockAsio::~EggClockAsio() {
+
+}
+
+// TODO: change to member
+void
+timeoutTrampoline(
+		const boost::system::error_code& err,
 		boost::function<void(bool)> aCallback) {
 	bool normalTimeOut = true;
 
@@ -24,21 +34,17 @@ void timeoutTrampoline(const boost::system::error_code& err,
 	aCallback(normalTimeOut);
 }
 
-EggClockAsio::EggClockAsio(const boost::shared_ptr<LoopAsio>& aLoop)
-	: myTimer(*aLoop->getAsioIo()) {
-}
-
-EggClockAsio::~EggClockAsio() {
-
-}
-
-void EggClockAsio::setTimeout(
+void
+EggClockAsio::setTimeout(
 		boost::posix_time::time_duration aTimeout,
 		boost::function<void(bool)> aCallback) {
 	myTimer.expires_from_now(aTimeout);
 	myTimer.async_wait(boost::bind(timeoutTrampoline, _1, aCallback));
 }
 
-void EggClockAsio::cancel() {
+void
+EggClockAsio::cancel() {
 	myTimer.cancel();
+}
+
 }

@@ -12,7 +12,8 @@ namespace netalicious {
 
 class EggClockAsio : public EggClock {
 public:
-	EggClockAsio(const boost::shared_ptr<LoopAsio>& aLoop);
+	EggClockAsio(
+			const boost::shared_ptr<LoopAsio>& aLoop);
 	~EggClockAsio();
 
 	void setTimeout(

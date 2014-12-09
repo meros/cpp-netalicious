@@ -37,9 +37,9 @@ private:
 
 TcpChannelAsio::TcpChannelAsio(
 		const boost::shared_ptr<LoopAsio>& aLoop)
-: ourLoop(aLoop)
-, mySocket(*aLoop->getAsioIo().get())
-, myStrand(*aLoop->getAsioIo().get()){
+	: ourLoop(aLoop)
+	, mySocket(*aLoop->getAsioIo().get())
+	, myStrand(*aLoop->getAsioIo().get()) {
 
 }
 
@@ -54,7 +54,8 @@ TcpChannelAsio::close() {
 }
 
 void
-TcpChannelAsio::read(const ReadDoneFunc& aReadDoneFunc) {
+TcpChannelAsio::read(
+		const ReadDoneFunc& aReadDoneFunc) {
 	// TODO: pool these...
 	boost::shared_ptr<CharArrayReadableBuffer> buffer(new CharArrayReadableBuffer());
 
@@ -103,7 +104,8 @@ TcpChannelAsio::stranded_start_write_next_request() {
 }
 
 void
-TcpChannelAsio::stranded_continue_write_current_request(size_t aOffset) {
+TcpChannelAsio::stranded_continue_write_current_request(
+		size_t aOffset) {
 	assert(myCurrentWriteRequest);
 
 	ReadableBufferPart part = myCurrentWriteRequest->readableBuffer->readPart(aOffset);

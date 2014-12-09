@@ -13,11 +13,14 @@ class TcpAcceptorAsio :
 	public TcpAcceptor,
 	public boost::enable_shared_from_this<TcpAcceptorAsio>{
 public:
-	TcpAcceptorAsio(const boost::shared_ptr<LoopAsio>& aLoop);
+	TcpAcceptorAsio(
+			const boost::shared_ptr<LoopAsio>& aLoop);
 
-	bool bind(uint16_t port);
+	bool bind(
+			uint16_t port);
 
-	void accept(const AcceptDoneFunc& aAcceptDoneFunc);
+	void accept(
+			const AcceptDoneFunc& aAcceptDoneFunc);
 private:
 	void accept_done(
 			const AcceptDoneFunc& aCallback,

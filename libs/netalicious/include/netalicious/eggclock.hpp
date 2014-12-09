@@ -1,6 +1,5 @@
 #pragma once
 
-#include <boost/smart_ptr.hpp>
 #include <boost/function.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 
@@ -13,6 +12,7 @@ public:
 	// Set timeout, aCallback will be called when time has expired
 	// If there is already an outstanding timeout, it will be cancelled
 	virtual void setTimeout(
+			// TODO: time abstraction??
 			boost::posix_time::time_duration aTimeout,
 			boost::function<void (bool)> aCallback) = 0;
 

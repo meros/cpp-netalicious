@@ -12,7 +12,8 @@ TcpAcceptorAsio::TcpAcceptorAsio(
 }
 
 bool
-TcpAcceptorAsio::bind(uint16_t port) {
+TcpAcceptorAsio::bind(
+		uint16_t port) {
 	boost::system::error_code ec;
 
 	boost::asio::ip::tcp::endpoint endpoint(
@@ -31,7 +32,8 @@ TcpAcceptorAsio::bind(uint16_t port) {
 
 
 void
-TcpAcceptorAsio::accept(const AcceptDoneFunc& aAcceptDoneFunc){
+TcpAcceptorAsio::accept(
+		const AcceptDoneFunc& aAcceptDoneFunc){
 	boost::shared_ptr<TcpChannelAsio> tcpChannel(new TcpChannelAsio(ourLoop));
 
     myAcceptor.async_accept(
@@ -47,8 +49,13 @@ void
 TcpAcceptorAsio::accept_done(
 		const AcceptDoneFunc& aCallback,
 		const boost::shared_ptr<TcpChannelAsio>& aTcpChannel) {
-	// TODO: check error
-	if (aCallback(aTcpChannel)) {
+	boost::optional<boost::shared_ptr<TcpChannel> > connectedChannel;
+
+	if (aTcpChannel->isOpen()) {
+		connectedChannel.reset(aTcpChannel);
+	}
+
+	if (aCallback(connectedChannel)) {
 		accept(aCallback);
 	}
 }

@@ -41,10 +41,15 @@ bool read_done(boost::shared_ptr<ReadableBuffer> buffer, boost::shared_ptr<TcpCh
 
 static int socketCounter = 0;
 
-bool accept_done(boost::shared_ptr<TcpChannel> channel) {
-	cout << "Accepted tcp socket" << endl;
-	channel->read(bind(read_done, _1, channel, socketCounter++));
-	return true;
+bool accept_done(boost::optional<boost::shared_ptr<TcpChannel> > channel) {
+	if (channel) {
+		cout << "Accepted tcp socket" << endl;
+		(*channel)->read(bind(read_done, _1, *channel, socketCounter++));
+		return true;
+	} else {
+		cout << "Failed to accept tcp socket" << endl;
+		return true;
+	}
 }
 
 int main (int argc, char** argv) {

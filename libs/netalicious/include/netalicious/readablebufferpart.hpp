@@ -8,8 +8,8 @@ namespace netalicious {
 class ReadableBufferPart {
 public:
 	ReadableBufferPart()
-	: buffer(0)
-	, size(0) {}
+		: buffer(0)
+		, size(0) {}
 
 	ReadableBufferPart(
 			const uint8_t* aBuffer,
