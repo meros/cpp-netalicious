@@ -29,7 +29,7 @@ As of now this is available:
 * TcpAcceptor - able to bind/accept/close
 * TcpChannel - able to read/write/close
 * ReadableBuffer - working, needs utilities for ease of use
-* TcpConnector - basic functionaly with hardcoded address and syncronous operation
+* TcpConnector - basic functionaly with hardcoded address
 * TODO: SslChannel
 
 Design decisions and random thoughts
