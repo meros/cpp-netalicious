@@ -4,6 +4,12 @@
 
 #include <iostream>
 
+// TODO: change to method
+void runTrampooline(
+		boost::shared_ptr<boost::asio::io_service> myAsioIo) {
+	myAsioIo->run();
+}
+
 namespace netalicious {
 
 LoopAsio::LoopAsio()
@@ -16,12 +22,6 @@ LoopAsio::LoopAsio()
 LoopAsio::~LoopAsio() {
 	myAsioIo->stop();
 	myRunThread.join();
-}
-
-// TODO: change to method
-void runTrampooline(
-		boost::shared_ptr<boost::asio::io_service> myAsioIo) {
-	myAsioIo->run();
 }
 
 boost::shared_ptr<boost::asio::io_service>
