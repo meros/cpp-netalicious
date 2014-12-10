@@ -9,6 +9,10 @@ using namespace std;
 using namespace boost;
 using namespace netalicious;
 
+void dummy() {
+
+}
+
 void write_done(boost::shared_ptr<TcpChannel> channel) {
 	cout << "Writing done. Closing socket!" << endl;
 	channel->close();
@@ -41,11 +45,36 @@ bool read_done(boost::shared_ptr<ReadableBuffer> buffer, boost::shared_ptr<TcpCh
 
 static int socketCounter = 0;
 
+class FixedInitialWrite : public netalicious::ReadableBuffer {
+public:
+	FixedInitialWrite() {
+		buffer = (const char*)"Hello there\n";
+		size = strlen(buffer);
+	}
+
+	virtual size_t getSize() {
+		return size;
+	}
+
+	ReadableBufferPart readPart(
+			size_t aOffset) {
+		if (aOffset > size) {
+			return ReadableBufferPart();
+		}
+
+		return ReadableBufferPart(((uint8_t*)buffer) + aOffset, size - aOffset);
+	}
+
+	const char* buffer;
+	size_t size;
+};
+
 void connect_done(boost::optional<boost::shared_ptr<TcpChannel> > channel) {
 
 	if (channel) {
 		assert(*channel);
 		cout << "Connected tcp socket" << endl;
+		(*channel)->write(shared_ptr<ReadableBuffer>(new FixedInitialWrite()), bind(dummy));
 		(*channel)->read(bind(read_done, _1, *channel, socketCounter++));
 	} else {
 		cout << "Failed to connect" << endl;
@@ -59,7 +88,12 @@ int main (int argc, char** argv) {
 	boost::shared_ptr<Loop> loop = netalicious->createLoop();
 	boost::shared_ptr<TcpConnector> tcpAcceptor = netalicious->createTcpConnector(loop);
 
-	tcpAcceptor->connect(bind(connect_done, _1));
+	uint8_t google[] = {74, 125, 205, 106};
+	uint8_t localhost[] = {127,0,0,1};
+	tcpAcceptor->connect(
+			netalicious->createIpAddress(google),
+			80,
+			bind(connect_done, _1));
 
 	loop->waitDone();
 }

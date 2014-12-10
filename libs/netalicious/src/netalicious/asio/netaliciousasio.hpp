@@ -19,6 +19,8 @@ public:
 	boost::shared_ptr<TcpConnector> createTcpConnector(
 			boost::shared_ptr<Loop> aLoop);
 
+	boost::shared_ptr<IpAddress> createIpAddress(
+			uint8_t aOctets[4]);
 };
 
 }

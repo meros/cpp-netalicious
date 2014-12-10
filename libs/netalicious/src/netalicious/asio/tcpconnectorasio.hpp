@@ -16,6 +16,8 @@ public:
 	TcpConnectorAsio(const boost::shared_ptr<LoopAsio>& aLoop);
 
 	void connect(
+			const boost::shared_ptr<IpAddress>& aTcpEndpoint,
+			uint16_t aPort,
 			const ConnectDoneFunc& aConnectDoneFunc);
 
 private:

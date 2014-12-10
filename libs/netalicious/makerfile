@@ -16,6 +16,7 @@ maker_module_set_sources(
 	src/netalicious/asio/tcpchannelasio.hpp
 	src/netalicious/asio/loopasio.hpp
 	src/netalicious/asio/tcpconnectorasio.hpp
+	src/netalicious/asio/ipaddressv4asio.hpp
 	
 	src/netalicious/asio/loopasio.cpp
 	src/netalicious/asio/tcpchannelasio.cpp
@@ -23,6 +24,8 @@ maker_module_set_sources(
 	src/netalicious/asio/tcpacceptorasio.cpp
 	src/netalicious/asio/netaliciousasio.cpp
 	src/netalicious/asio/tcpconnectorasio.cpp
-	src/netalicious/netalicious.cpp)
+	src/netalicious/netalicious.cpp
+	src/netalicious/asio/ipaddressv4asio.cpp
+	)
 
 	

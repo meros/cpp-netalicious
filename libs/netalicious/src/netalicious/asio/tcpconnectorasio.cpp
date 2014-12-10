@@ -1,6 +1,7 @@
 #include "tcpconnectorasio.hpp"
 
 #include <boost/asio/ip/tcp.hpp>
+#include <netalicious/asio/ipaddressv4asio.hpp>
 
 namespace netalicious {
 
@@ -12,12 +13,21 @@ TcpConnectorAsio::TcpConnectorAsio(
 
 void
 TcpConnectorAsio::connect(
+		const boost::shared_ptr<IpAddress>& aIpAddress,
+		uint16_t aPort,
 		const ConnectDoneFunc& aConnectDoneFunc) {
-	// TOOD: change from sync to async!
-	// TODO: no hard coded endpoints!
+
+	boost::shared_ptr<IpAddressV4Asio> asiov4addr =
+			boost::dynamic_pointer_cast<IpAddressV4Asio>(aIpAddress);
+
+	if (!asiov4addr) {
+		aConnectDoneFunc(boost::optional<boost::shared_ptr<TcpChannel> >());
+		// TODO: log, this is bad usage!
+		return;
+	}
+
 	boost::shared_ptr<TcpChannelAsio> channel(new TcpChannelAsio(ourLoop));
-	boost::asio::ip::tcp::endpoint ep(
-			boost::asio::ip::address::from_string("127.0.0.1"), 8080);
+	boost::asio::ip::tcp::endpoint ep(asiov4addr->myAddress, aPort);
 
 	channel->getAsioSocket().async_connect(
 			ep,
