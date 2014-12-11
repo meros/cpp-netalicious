@@ -9,6 +9,7 @@ maker_module_set_sources(
 	include/netalicious/loop.hpp
 	include/netalicious/tcpacceptor.hpp
 	include/netalicious/readablebuffer.hpp
+	include/netalicious/utils/stringreadablebuffer.hpp
 
 	src/netalicious/asio/tcpacceptorasio.hpp
 	src/netalicious/asio/eggclockasio.hpp

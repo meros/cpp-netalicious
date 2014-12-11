@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include <netalicious/netalicious.hpp>
+#include <netalicious/utils/stringreadablebuffer.hpp>
 
 #include <boost/bind.hpp>
 #include <boost/smart_ptr.hpp>
@@ -45,36 +46,17 @@ bool read_done(boost::shared_ptr<ReadableBuffer> buffer, boost::shared_ptr<TcpCh
 
 static int socketCounter = 0;
 
-class FixedInitialWrite : public netalicious::ReadableBuffer {
-public:
-	FixedInitialWrite() {
-		buffer = (const char*)"Hello there\n";
-		size = strlen(buffer);
-	}
-
-	virtual size_t getSize() {
-		return size;
-	}
-
-	ReadableBufferPart readPart(
-			size_t aOffset) {
-		if (aOffset > size) {
-			return ReadableBufferPart();
-		}
-
-		return ReadableBufferPart(((uint8_t*)buffer) + aOffset, size - aOffset);
-	}
-
-	const char* buffer;
-	size_t size;
-};
-
 void connect_done(boost::optional<boost::shared_ptr<TcpChannel> > channel) {
 
 	if (channel) {
 		assert(*channel);
 		cout << "Connected tcp socket" << endl;
-		(*channel)->write(shared_ptr<ReadableBuffer>(new FixedInitialWrite()), bind(dummy));
+
+		shared_ptr<StringReadableBuffer> initialWrite(new StringReadableBuffer());
+		initialWrite->getString().append("GET / HTTP/1.0\r\n\r\n");
+		initialWrite->commit();
+
+		(*channel)->write(initialWrite, bind(dummy));
 		(*channel)->read(bind(read_done, _1, *channel, socketCounter++));
 	} else {
 		cout << "Failed to connect" << endl;
