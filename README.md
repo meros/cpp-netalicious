@@ -31,6 +31,10 @@ As of now this is available:
 * ReadableBuffer - working, needs utilities for ease of use
 * TcpConnector - basic functionaly with hardcoded address
 * TODO: SslChannel
+ 
+Utilities:
+
+* String backed ReadableBuffer
 
 Design decisions and random thoughts
 ------------------------------------
