@@ -3,33 +3,18 @@ netalicious
 
 What is this?
 -------------
-netalicious is a simple (as in easy to use) network lib that is still based on a modern asynchronous model that should be able to scale well. That said, the design does not aim for best in class performance, target audience is hobby projects that want an easy to use cross platform event driven network library.
+netalicious aims to be a simple (as in easy to use) network lib that is still based on a modern asynchronous model that should be able to scale well. That said, the design does not aim for best in class performance, target audience is hobby projects that want an easy to use cross platform event driven network library.
 
-In scope:
-* Basic accepting/connecting tcp sockets.
-* Basic protocol handling.
-
-Goals:
-* Dead simple application code.
-* Thin api between application and implementation, helpers are implemented in headers using same thin api.
-* Sane but balanced model for handling resources/memory etc. Professional quality but not micro optimized.
-
-Antigoals:
-* Templates as micro-optimization
-* Best in class performance (choosing an interface/implementation pattern is in itself a cost)
+The library consists of a minimal interface with an asio implementation (hidden from application) as well as utilities to extend in ease of use. 
 
 Current status
 --------------
-This project is still in it's infancy, much is lacking.
-
-As of now this is available:
-
-* Loop - working
-* EggClock - working
-* TcpAcceptor - able to bind/accept/close
-* TcpChannel - able to read/write/close
-* ReadableBuffer - working, needs utilities for ease of use
-* TcpConnector - basic functionaly with hardcoded address
+* Loop - main event source - fully working but limited in flexibility concerning threading etc
+* EggClock - timed event callbacks, fully working 
+* TcpAcceptor - listen on port and callback for each connecting tcp socket, working but lacking advanced options like choosing binding interface
+* TcpChannel - connected tcp socket, able to write/read/close - what more do you need? :)
+* ReadableBuffer - inteface for readable buffer fully working, need good utility iplementations for applications to use 
+* TcpConnector - connect tcp to ip/port, fullly working 
 * TODO: SslChannel
  
 Utilities:
@@ -38,7 +23,7 @@ Utilities:
 
 Design decisions and random thoughts
 ------------------------------------
-Very light weight error mechanism - connect either returns ok channel or not - when did you really take care of all potential errors correctly anyway? When did you really recover from exotic error states? So, few potential return values, less code, better code. 
+By choice the interface exposes very few errors (at the moment more or less none). The reason is that full range of errors is usually little help in implementing robust services. Better implement the binary 'worked/did not work' case fully than bother with lots of edge cases.
 
 Never return null pointers, always wrap in optional if empty result is an option. Clear semantic signal on what user can expect and needs to take care of.
 
