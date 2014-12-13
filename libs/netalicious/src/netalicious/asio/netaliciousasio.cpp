@@ -5,6 +5,7 @@
 #include <netalicious/asio/tcpacceptorasio.hpp>
 #include <netalicious/asio/tcpconnectorasio.hpp>
 #include <netalicious/asio/ipaddressv4asio.hpp>
+#include <netalicious/asio/ipresolverasio.hpp>
 
 namespace netalicious {
 
@@ -42,6 +43,15 @@ NetaliciousAsio::createTcpConnector(
 			boost::static_pointer_cast<LoopAsio>(aLoop);
 
 	return boost::shared_ptr<TcpConnector> (new TcpConnectorAsio(loopAsio));
+}
+
+boost::shared_ptr<IpResolver>
+NetaliciousAsio::createIpResolver(
+			boost::shared_ptr<Loop> aLoop) {
+	boost::shared_ptr<LoopAsio> loopAsio =
+			boost::static_pointer_cast<LoopAsio>(aLoop);
+
+	return boost::shared_ptr<IpResolver> (new IpResolverAsio(loopAsio));
 }
 
 boost::shared_ptr<IpAddress>

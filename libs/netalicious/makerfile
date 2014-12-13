@@ -8,6 +8,7 @@ maker_module_set_sources(
 	include/netalicious/readablebufferpart.hpp
 	include/netalicious/loop.hpp
 	include/netalicious/tcpacceptor.hpp
+	include/netalicious/ipresolver.hpp
 	include/netalicious/readablebuffer.hpp
 	include/netalicious/utils/stringreadablebuffer.hpp
 
@@ -18,6 +19,7 @@ maker_module_set_sources(
 	src/netalicious/asio/loopasio.hpp
 	src/netalicious/asio/tcpconnectorasio.hpp
 	src/netalicious/asio/ipaddressv4asio.hpp
+	src/netalicious/asio/ipresolverasio.hpp
 	
 	src/netalicious/asio/loopasio.cpp
 	src/netalicious/asio/tcpchannelasio.cpp
@@ -27,6 +29,7 @@ maker_module_set_sources(
 	src/netalicious/asio/tcpconnectorasio.cpp
 	src/netalicious/netalicious.cpp
 	src/netalicious/asio/ipaddressv4asio.cpp
+	src/netalicious/asio/ipresolverasio.cpp
 	)
 
 	
