@@ -63,19 +63,32 @@ void connect_done(boost::optional<boost::shared_ptr<TcpChannel> > channel) {
 	}
 }
 
+void resolveDone(
+		boost::optional<boost::shared_ptr<IpAddress> > aOptionalIpAddress,
+		boost::shared_ptr<TcpConnector> aTcpConnector) {
+
+	if (aOptionalIpAddress) {
+		aTcpConnector->connect(
+				*aOptionalIpAddress,
+				80,
+				bind(connect_done, _1));
+	} else {
+		cout << "Failed to resolve!" << endl;
+	}
+
+}
+
 int main (int argc, char** argv) {
 	cout << "Will connect socket on port 8080" << endl;
 
 	boost::shared_ptr<Netalicious> netalicious = Netalicious::getDefault();
 	boost::shared_ptr<Loop> loop = netalicious->createLoop();
-	boost::shared_ptr<TcpConnector> tcpAcceptor = netalicious->createTcpConnector(loop);
+	boost::shared_ptr<TcpConnector> tcpConnector = netalicious->createTcpConnector(loop);
+	boost::shared_ptr<IpResolver> resolver = netalicious->createIpResolver(loop);
 
-	uint8_t google[] = {74, 125, 205, 106};
 	uint8_t localhost[] = {127,0,0,1};
-	tcpAcceptor->connect(
-			netalicious->createIpAddress(google),
-			80,
-			bind(connect_done, _1));
+
+	resolver->resolve("www.google.com", boost::bind(resolveDone, _1, tcpConnector));
 
 	loop->waitDone();
 }
