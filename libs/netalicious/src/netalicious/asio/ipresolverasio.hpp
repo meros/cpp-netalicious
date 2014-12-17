@@ -20,6 +20,11 @@ public:
 			const std::string& aHostName,
 			const ResolveDoneFunc& aResolveDoneFunc);
 private:
+
+	void resolve_done(
+			const boost::asio::ip::tcp::resolver::iterator aResolverIterator,
+			const ResolveDoneFunc& aResolveDoneFunc);
+
 	boost::shared_ptr<LoopAsio> ourLoop;
 	boost::asio::ip::tcp::resolver myResolver;
 };

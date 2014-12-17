@@ -14,21 +14,30 @@ IpResolverAsio::IpResolverAsio(
 
 }
 
-
 void
 IpResolverAsio::resolve(
 		const std::string& aHostName,
 		const ResolveDoneFunc& aResolveDoneFunc) {
-	// TODO: make async
-	// TODO: what if more than one result? Replace optional with list probably
-	boost::asio::ip::tcp::resolver::iterator i =
-			myResolver.resolve(boost::asio::ip::tcp::resolver::query(aHostName, ""));
 
+	myResolver.async_resolve(
+			boost::asio::ip::tcp::resolver::query(aHostName, ""),
+			boost::bind(
+					&IpResolverAsio::resolve_done,
+					shared_from_this(),
+					_2, aResolveDoneFunc));
+}
+
+void
+IpResolverAsio::resolve_done(
+		const boost::asio::ip::tcp::resolver::iterator aResolverIterator,
+		const ResolveDoneFunc& aResolveDoneFunc) {
+
+	// TODO: what if more than one result? Replace optional with list probably
 	boost::optional<boost::shared_ptr<IpAddress> > optionalIpAddress
 		= boost::optional<boost::shared_ptr<IpAddress> >();
 
-	if (i != boost::asio::ip::tcp::resolver::iterator()) {
-	    boost::asio::ip::tcp::endpoint end = *i;
+	if (aResolverIterator != boost::asio::ip::tcp::resolver::iterator()) {
+	    boost::asio::ip::tcp::endpoint end = *aResolverIterator;
 
 	    boost::shared_ptr<IpAddressV4Asio> ipAddress(new IpAddressV4Asio());
 
