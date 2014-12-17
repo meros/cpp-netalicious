@@ -15,6 +15,7 @@ Current status
 * TcpChannel - connected tcp socket, able to write/read/close - what more do you need? :)
 * ReadableBuffer - inteface for readable buffer fully working, need good utility iplementations for applications to use 
 * TcpConnector - connect tcp to ip/port, fullly working 
+* Resolver - resolve dns to ip - currently limed to 1 result and ipv4
 * TODO: SslChannel
  
 Utilities:
