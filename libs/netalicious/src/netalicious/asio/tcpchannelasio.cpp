@@ -35,6 +35,18 @@ private:
 	size_t readableBytes;
 };
 
+class NullReadableBuffer : public ReadableBuffer {
+public:
+	size_t getSize() {
+		return 0;
+	}
+
+	ReadableBufferPart readPart(size_t aOffset) {
+		return ReadableBufferPart();
+	}
+};
+
+
 TcpChannelAsio::TcpChannelAsio(
 		const boost::shared_ptr<LoopAsio>& aLoop)
 	: ourLoop(aLoop)
@@ -61,7 +73,12 @@ TcpChannelAsio::read(
 
 	mySocket.async_receive(
 			buffer->getAsioBuffer(),
-			boost::bind(&TcpChannelAsio::read_done, shared_from_this(), _2, aReadDoneFunc, buffer));
+			boost::bind(&TcpChannelAsio::read_done,
+					shared_from_this(),
+					_1,
+					_2,
+					aReadDoneFunc,
+					buffer));
 }
 
 void
@@ -139,11 +156,17 @@ TcpChannelAsio::stranded_write_done(
 
 void
 TcpChannelAsio::read_done(
+		const boost::system::error_code& error,
 		size_t bytesRead,
 		const ReadDoneFunc& aReadDoneFunc,
 		const boost::shared_ptr<CharArrayReadableBuffer>& aReadableBuffer) {
 
-	//TODO: error checking
+	if (error) {
+		aReadDoneFunc(boost::shared_ptr<ReadableBuffer>(
+				new NullReadableBuffer()));
+		return;
+	}
+
 	aReadableBuffer->truncate(bytesRead);
 	if (aReadDoneFunc(aReadableBuffer)) {
 		read(aReadDoneFunc);

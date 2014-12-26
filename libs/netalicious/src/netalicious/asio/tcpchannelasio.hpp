@@ -36,6 +36,7 @@ public:
 
 private:
 	void read_done(
+			const boost::system::error_code& error,
 			size_t bytesRead,
 			const ReadDoneFunc& aReadDoneFunc,
 			const boost::shared_ptr<CharArrayReadableBuffer>& aReadableBuffer);
